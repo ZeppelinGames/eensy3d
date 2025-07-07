@@ -3,10 +3,10 @@ import { Camera } from "./ogl/index.js";
 
 class Scene {
     constructor(gl) {
-        this.camera = new Camera(gl, { fov: 35 });
-        this.camera.lookAt([0, 0, 0]);
-        this.camera.position.set(0, 0, 10);
         this.root = new GameObject("root");
+        this.camera = new Camera(gl, { fov: 35 });
+        this.camera.position.set(-10, 15, 10);
+        this.camera.rotation.set(-Math.PI / 4,-Math.PI / 4,0);
     }
 
     start() {
@@ -19,8 +19,7 @@ class Scene {
 
     addToScene(transform) {
         this.root.transform.addChild(transform);
-    } 
-
+    }
 }
 
 export default Scene;

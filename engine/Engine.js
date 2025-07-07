@@ -45,8 +45,8 @@ function update(t) {
             scene: scene.root.transform,
             camera: scene.camera
         });
-        go.transform.rotation.x += 0.03;
-        go.transform.rotation.y += 0.03;
+        // go.transform.rotation.x += 0.03;
+        // go.transform.rotation.y += 0.03;
     }
 
     requestAnimationFrame(update);
