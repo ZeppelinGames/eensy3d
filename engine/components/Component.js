@@ -1,9 +1,9 @@
 import GameEntity from "../GameEntity.js";
-import GameObject from "../GameObject.js";
 
-class Component extends GameObject {
-    constructor() {
+class Component extends GameEntity {
+    constructor(gameObject) {
         super();
+        this.gameObject = gameObject;
     }
 }
 

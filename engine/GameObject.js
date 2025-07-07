@@ -6,6 +6,25 @@ class GameObject extends GameEntity {
         super();
         this.name = name;
         this.transform = new Transform();
+        this.components = [];
+    }
+
+    addComponent(ComponentClass) {
+        const component = new ComponentClass(this);
+        component.setGameObject(this);
+        this.components.push(component);
+        return component;
+    }
+
+    onStart() {
+        this.components.forEach(c => {
+            c.start();
+        });
+    }
+    onUpdate() {
+        this.components.forEach(c => {
+            c.update();
+        });
     }
 }
 

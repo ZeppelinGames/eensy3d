@@ -2,6 +2,7 @@ import Actor from './Actor.js';
 import MeshRenderer from './components/MeshRenderer.js';
 import { Program, Renderer } from './ogl/index.js';
 import Scene from './Scene.js';
+import BasicMat from './shaders/BasicMat.js';
 
 const renderCanvas = document.getElementById("renderCanvas");
 
@@ -10,44 +11,19 @@ const renderer = new Renderer({ canvas: renderCanvas, width: 256, height: 256 })
 const gl = renderer.gl;
 gl.clearColor(0, 0, 0, 1);
 
-const vertex = /* glsl */ `
-                attribute vec3 position;
-                attribute vec3 normal;
-
-                uniform mat4 modelViewMatrix;
-                uniform mat4 projectionMatrix;
-                uniform mat3 normalMatrix;
-
-                varying vec3 vNormal;
-
-                void main() {
-                    vNormal = normalize(normalMatrix * normal);
-                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-                }
-            `;
-
-const fragment = /* glsl */ `
-                precision highp float;
-
-                varying vec3 vNormal;
-
-                void main() {
-                    vec3 normal = normalize(vNormal);
-                    float lighting = dot(normal, normalize(vec3(-0.3, 0.8, 0.6)));
-                    gl_FragColor.rgb = vec3(0.2, 0.8, 1.0) + lighting * 0.1;
-                    gl_FragColor.a = 1.0;
-                }
-            `;
-const program = new Program(gl, {
-    vertex,
-    fragment,
-    cullFace: gl.BACK,
-});
+const basicMat = new BasicMat(gl);
 
 let scene = new Scene(gl);
 let go = new Actor();
-go.addComponent(new MeshRenderer(gl, program));
-scene.root.transform.addChild(go.transform);
+go.addComponent(new MeshRenderer(gl, basicMat));
+
+let go2 = new Actor();
+go2.addComponent(new MeshRenderer(gl, basicMat));
+
+go.transform.addChild(go2.transform);
+go2.transform.position.set(1,0,0);
+
+scene.addToScene(go.transform);
 
 start();
 

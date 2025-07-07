@@ -2,10 +2,10 @@ import { Box, Mesh } from "../ogl/index.js";
 import Component from "./Component.js";
 
 class MeshRenderer extends Component {
-    constructor(gl, program) {
+    constructor(gl, material) {
         super();
         const cubeGeometry = new Box(gl);
-        this.mesh = new Mesh(gl, { geometry: cubeGeometry, program })
+        this.mesh = new Mesh(gl, { geometry: cubeGeometry, program: material.program })
     }
 
     GetComponent() {

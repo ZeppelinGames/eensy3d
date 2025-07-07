@@ -16,6 +16,11 @@ class Scene {
     update(t) {
         this.root.update(t);
     }
+
+    addToScene(transform) {
+        this.root.transform.addChild(transform);
+    } 
+
 }
 
 export default Scene;
