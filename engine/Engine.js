@@ -4,7 +4,7 @@ import { Program, Renderer } from './ogl/index.js';
 import Scene from './Scene.js';
 import BasicMat from './shaders/BasicMat.js';
 
-const renderCanvas = document.getElementById("renderCanvas");
+const renderCanvas = document.getElementById("canvas3d");
 
 // Create renderer
 const renderer = new Renderer({ canvas: renderCanvas, width: 256, height: 256 });
@@ -16,12 +16,7 @@ const basicMat = new BasicMat(gl);
 let scene = new Scene(gl);
 let go = new Actor();
 go.addComponent(new MeshRenderer(gl, basicMat));
-
-let go2 = new Actor();
-go2.addComponent(new MeshRenderer(gl, basicMat));
-
-go.transform.addChild(go2.transform);
-go2.transform.position.set(1,0,0);
+go.transform.scale.set(3,1,3)
 
 scene.addToScene(go.transform);
 
@@ -45,8 +40,6 @@ function update(t) {
             scene: scene.root.transform,
             camera: scene.camera
         });
-        // go.transform.rotation.x += 0.03;
-        // go.transform.rotation.y += 0.03;
     }
 
     requestAnimationFrame(update);
@@ -58,7 +51,6 @@ function loadScene(scene) {
 }
 
 function handleResize() {
-    // renderer.setSize(window.innerWidth, window.innerHeight);
     if (scene && scene.camera) {
         scene.camera.perspective({
             aspect: gl.canvas.width / gl.canvas.height,
