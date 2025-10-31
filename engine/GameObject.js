@@ -9,11 +9,9 @@ class GameObject extends GameEntity {
         this.components = [];
     }
 
-    addComponent(ComponentClass) {
-        const component = new ComponentClass(this);
-        component.setGameObject(this);
-        this.components.push(component);
-        return component;
+    addComponent(component) {
+       this.components.push(component);
+        this.transform.addChild(component.GetComponent());
     }
 
     onStart() {

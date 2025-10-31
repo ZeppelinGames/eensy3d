@@ -1,59 +1,65 @@
-import Actor from './Actor.js';
-import MeshRenderer from './components/MeshRenderer.js';
-import { Program, Renderer } from './ogl/index.js';
-import Scene from './Scene.js';
-import BasicMat from './shaders/BasicMat.js';
+import { Renderer } from "./ogl/index.js";
 
-const renderCanvas = document.getElementById("canvas3d");
+class Engine {
+    constructor(canvasId = 'canvas3d', options = {}) {
+        const renderCanvas = document.getElementById(canvasId);
 
-// Create renderer
-const renderer = new Renderer({ canvas: renderCanvas, width: 256, height: 256 });
-const gl = renderer.gl;
-gl.clearColor(0, 0, 0, 1);
-
-const basicMat = new BasicMat(gl);
-
-let scene = new Scene(gl);
-let go = new Actor();
-go.addComponent(new MeshRenderer(gl, basicMat));
-go.transform.scale.set(3,1,3)
-
-scene.addToScene(go.transform);
-
-start();
-
-function start() {
-    // Handle resizing
-    window.addEventListener('resize', handleResize, false);
-    handleResize();
-
-    loadScene(scene);
-
-    // Start core loop
-    requestAnimationFrame(update);
-}
-
-function update(t) {
-    // Render world
-    if (scene) {
-        renderer.render({
-            scene: scene.root.transform,
-            camera: scene.camera
+        this.renderer = new Renderer({
+            canvas: renderCanvas,
+            width: options.width || 256,
+            height: options.height || 256,
         });
+
+        this.gl = this.renderer.gl;
+        this.gl.clearColor(0, 0, 0, 1);
+
+        this._lastTime = 0;
+
+        this.scene = null;
+        this._running = false;
+
+        this.onUpdate = null;
+
+        window.addEventListener('resize', () => this.handleResize(), false);
     }
 
-    requestAnimationFrame(update);
-}
+    setScene(scene) {
+        this.scene = scene;
+        if (scene.camera) this.handleResize();
+    }
 
+    start() {
+        console.log('Engine started');
 
-function loadScene(scene) {
-    scene.start();
-}
+        this._running = true;
+        requestAnimationFrame((t) => this.update(t));
+    }
 
-function handleResize() {
-    if (scene && scene.camera) {
-        scene.camera.perspective({
-            aspect: gl.canvas.width / gl.canvas.height,
+    update(t) {
+        if (!this._running || !this.scene) return;
+
+        const delta = t - (this._lastTime || t);
+        if (this.onUpdate) {
+            this.onUpdate(delta);
+        }
+
+        this.renderer.render({
+            scene: this.scene.root.transform,
+            camera: this.scene.camera,
         });
+        this._lastTime = t;
+
+        requestAnimationFrame((t) => this.update(t));
+    }
+
+    handleResize() {
+        if (this.scene?.camera) {
+            const { width, height } = this.renderer.gl.canvas;
+            this.scene.camera.perspective({
+                aspect: width / height,
+            });
+        }
     }
 }
+
+export default Engine;
