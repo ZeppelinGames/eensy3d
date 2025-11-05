@@ -19,6 +19,8 @@ class Engine {
         this._running = false;
 
         this.onUpdate = null;
+        this.fps = 0;
+        this.time = 0;
 
         window.addEventListener('resize', () => this.handleResize(), false);
     }
@@ -48,6 +50,8 @@ class Engine {
             camera: this.scene.camera,
         });
         this._lastTime = t;
+        this.fps = 1 / (delta / 1000);
+        this.time += delta;
 
         requestAnimationFrame((t) => this.update(t));
     }

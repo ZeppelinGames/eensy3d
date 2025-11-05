@@ -1,3 +1,13 @@
+@font-face {
+    font-family: 'ChunkySans';
+    src: url('./engine/ui/fonts/NotJamChunkySans6.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'BebasNeue';
+    src: url('./engine/ui/fonts/BebasNeue-Regular.ttf') format('truetype');
+}
+
 html,
 body {
     margin: 0;

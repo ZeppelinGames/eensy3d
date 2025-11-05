@@ -10,8 +10,17 @@ class GameObject extends GameEntity {
     }
 
     addComponent(component) {
-       this.components.push(component);
+        this.components.push(component);
         this.transform.addChild(component.GetComponent());
+    }
+
+    getComponent(componentType) {
+        for (let i = 0; i < this.components.length; i++) {
+            if (this.components[i] instanceof componentType) {
+                return this.components[i];
+            }
+        }
+        return null;
     }
 
     onStart() {

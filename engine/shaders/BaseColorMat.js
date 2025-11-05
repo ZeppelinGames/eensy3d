@@ -1,7 +1,7 @@
 import Material from "./Material.js";
 
-class BasicMat extends Material {
-    constructor(gl) {
+class BaseColorMat extends Material {
+    constructor(gl, color) {
         const vertex = /* glsl */ `
                 attribute vec3 position;
                 attribute vec3 normal;
@@ -22,17 +22,21 @@ class BasicMat extends Material {
                 precision highp float;
 
                 varying vec3 vNormal;
+                uniform vec3 uColor;
 
                 void main() {
                     vec3 normal = normalize(vNormal);
                     float lighting = dot(normal, normalize(vec3(-0.3, 0.8, 0.6)));
-                    gl_FragColor.rgb = vec3(0.5, 0.8, 1.0) + lighting * 0.1;
+                    gl_FragColor.rgb = uColor + lighting * 0.1;
                     gl_FragColor.a = 1.0;
                 }
             `;
 
-        super(gl, vertex, fragment);
+        const uniforms = {
+            uColor: { value: color }
+        };
+        super(gl, vertex, fragment, uniforms);
     }
 }
 
-export default BasicMat;
+export default BaseColorMat;    
