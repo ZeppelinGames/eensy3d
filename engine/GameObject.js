@@ -12,6 +12,7 @@ class GameObject extends GameEntity {
     addComponent(component) {
         this.components.push(component);
         this.transform.addChild(component.GetComponent());
+        return component;
     }
 
     getComponent(componentType) {

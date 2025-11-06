@@ -1,16 +1,10 @@
-import { Renderer } from "./ogl/index.js";
+import EngineRenderer from "./rendering/Renderer.js";
 
 class Engine {
-    constructor(canvasId = 'canvas3d', options = {}) {
-        const renderCanvas = document.getElementById(canvasId);
+    constructor() {
+        this.renderer = new EngineRenderer();
 
-        this.renderer = new Renderer({
-            canvas: renderCanvas,
-            width: options.width || 256,
-            height: options.height || 256,
-        });
-
-        this.gl = this.renderer.gl;
+        this.gl = this.renderer.renderer.gl;
         this.gl.clearColor(0, 0, 0, 1);
 
         this._lastTime = 0;
@@ -45,7 +39,7 @@ class Engine {
             this.onUpdate(delta);
         }
 
-        this.renderer.render({
+        this.renderer.renderer.render({
             scene: this.scene.root.transform,
             camera: this.scene.camera,
         });
@@ -58,7 +52,7 @@ class Engine {
 
     handleResize() {
         if (this.scene?.camera) {
-            const { width, height } = this.renderer.gl.canvas;
+            const { width, height } = this.gl.canvas;
             this.scene.camera.perspective({
                 aspect: width / height,
             });
@@ -66,4 +60,4 @@ class Engine {
     }
 }
 
-export default Engine;
+export const engine = new Engine();

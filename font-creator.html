@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        #grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 50px);
+            grid-template-rows: repeat(4, 50px);
+            gap: 5px;
+        }
+
+        #grid-container input[type="checkbox"] {
+            width: 50px;
+            height: 50px;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const checkboxes = document.querySelectorAll('#grid-container input[type="checkbox"]');
+            const output = document.getElementById('output');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', () => {
+                    const id = checkbox.id;
+                    const state = checkbox.checked ? 'checked' : 'unchecked';
+                    console.log(`Checkbox ${id} is now ${state}`);
+
+                    // convert checkboxes states to binary string
+                    let binaryString = '';
+                    checkboxes.forEach(cb => {
+                        binaryString += cb.checked ? '1' : '0';
+                    });
+                    // Binary to hexadecimal
+                    let binaryNumber = parseInt(binaryString, 2);
+                    output.textContent = `${binaryString} (Hexadecimal: ${binaryNumber.toString(16).toUpperCase()})`;
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div id="grid-container">
+        <input type="checkbox" id="0" />
+        <input type="checkbox" id="1" />
+        <input type="checkbox" id="2" />
+
+        <input type="checkbox" id="3" />
+        <input type="checkbox" id="4" />
+        <input type="checkbox" id="5" />
+
+        <input type="checkbox" id="6" />
+        <input type="checkbox" id="7" />
+        <input type="checkbox" id="8" />
+
+        <input type="checkbox" id="9" />
+        <input type="checkbox" id="10" />
+        <input type="checkbox" id="11" />
+    </div>
+    <p id="output"></p>
+</body>
+
+</html>

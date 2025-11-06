@@ -1,13 +1,20 @@
+import { engine } from "../Engine.js";
 import { Program } from "../ogl/index.js";
 
 class Material {
-    constructor(gl, vert, frag, uniforms = {}) {
-        this.program = new Program(gl, { 
-            vertex: vert, 
-            fragment: frag, 
-            cullFace: gl.BACK,
-            uniforms: uniforms
+    constructor(vert, frag, uniforms = {}, options = {}) {
+        this.uniforms = uniforms;
+        this.program = new Program(engine.gl, {
+            vertex: vert,
+            fragment: frag,
+            cullFace: engine.gl.BACK,
+            uniforms:  this.uniforms,
+            ...options
         });
+    }
+
+    setUniform(name, value) {
+        if (this.uniforms[name]) this.uniforms[name].value = value;
     }
 }
 

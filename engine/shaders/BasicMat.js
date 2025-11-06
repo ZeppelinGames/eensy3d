@@ -2,7 +2,7 @@ import Material from "./Material.js";
 
 class BasicMat extends Material {
     constructor(gl) {
-        const vertex = /* glsl */ `
+        const vertex = `
                 attribute vec3 position;
                 attribute vec3 normal;
 
@@ -18,7 +18,7 @@ class BasicMat extends Material {
                 }
             `;
 
-        const fragment = /* glsl */ `
+        const fragment = `
                 precision highp float;
 
                 varying vec3 vNormal;
