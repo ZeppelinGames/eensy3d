@@ -3,6 +3,7 @@ import MeshRenderer from './engine/components/MeshRenderer.js';
 import GameObject from './engine/GameObject.js';
 import Scene from './engine/Scene.js';
 import BaseColorMat from './engine/shaders/BaseColorMat.js';
+import { inputManager } from './engine/InputManager.js';
 
 engine.setScene(new Scene(engine.gl));
 
@@ -10,7 +11,6 @@ const cubes = [];
 
 const root = new GameObject('Root');
 engine.scene.addToScene(root.transform);
-
 
 const bigCubeSize = 3.0;
 for (let x = -bigCubeSize; x <= bigCubeSize; x++) {
@@ -27,10 +27,18 @@ for (let x = -bigCubeSize; x <= bigCubeSize; x++) {
                 1.0
             ]);
             smallCube.addComponent(new MeshRenderer(cubeMaterial));
-            
+
             smallCube.transform.setParent(root.transform);
             cubes.push(smallCube);
         }
+    }
+}
+
+let spinSpeed = 0.001;
+
+inputManager.onKeyDown = (e) => {
+    if (inputManager.keyStates['KeyP']) {
+        engine.togglePause();
     }
 }
 
@@ -39,9 +47,9 @@ engine.onUpdate = (delta) => {
 
     // Draw FPS
     engine.renderer.textRenderer.drawText(engine.fps.toFixed(0), 8, 16);
-    
+
     // Text rendering test
-    engine.renderer.textRenderer.drawText('ABCDEFGHIJKLMNOPQRSTUVQWXYZ', 8, 24);
+    engine.renderer.textRenderer.drawText('ABCDEFGHIJKLMNOPQRSTUVWXYZ', 8, 24);
     engine.renderer.textRenderer.drawText('abcdefghijklmnopqrstuvwxyz', 8, 32);
     engine.renderer.textRenderer.drawText('0123456789', 8, 40);
 
@@ -53,10 +61,9 @@ engine.onUpdate = (delta) => {
         c.transform.scale.set(sc, sc, sc);
     });
 
-    root.transform.rotation.x += 0.001 * delta;
-    root.transform.rotation.y += 0.001 * delta;
+    root.transform.rotation.x += spinSpeed * delta;
+    root.transform.rotation.y += spinSpeed * delta;
 }
-
 // Start everything
 engine.start();
 

@@ -3,16 +3,16 @@ import EngineRenderer from "./rendering/Renderer.js";
 class Engine {
     constructor() {
         this.renderer = new EngineRenderer();
-
         this.gl = this.renderer.renderer.gl;
         this.gl.clearColor(0, 0, 0, 1);
 
-        this._lastTime = 0;
+        this.lastTime = 0;
 
         this.scene = null;
-        this._running = false;
+        this.running = false;
 
         this.onUpdate = null;
+
         this.fps = 0;
         this.time = 0;
 
@@ -27,14 +27,16 @@ class Engine {
     start() {
         console.log('Engine started');
 
-        this._running = true;
+        this.lastTime = 0;
+        this.time = 0;
+        this.running = true;
         requestAnimationFrame((t) => this.update(t));
     }
 
     update(t) {
-        if (!this._running || !this.scene) return;
+        if (!this.running || !this.scene) return;
 
-        const delta = t - (this._lastTime || t);
+        const delta = t - (this.lastTime || t);
         if (this.onUpdate) {
             this.onUpdate(delta);
         }
@@ -43,11 +45,18 @@ class Engine {
             scene: this.scene.root.transform,
             camera: this.scene.camera,
         });
-        this._lastTime = t;
+        this.lastTime = t;
         this.fps = 1 / (delta / 1000);
         this.time += delta;
 
         requestAnimationFrame((t) => this.update(t));
+    }
+
+    togglePause() {
+        this.running = !this.running;
+        if(this.running) {
+            this.start();
+        }
     }
 
     handleResize() {

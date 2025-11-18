@@ -16,33 +16,67 @@
             margin: 0;
             padding: 0;
         }
+
+        #width,
+        #height {
+            width: 100px;
+            margin-bottom: 16px;
+        }
     </style>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const checkboxes = document.querySelectorAll('#grid-container input[type="checkbox"]');
-            const output = document.getElementById('output');
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', () => {
-                    const id = checkbox.id;
-                    const state = checkbox.checked ? 'checked' : 'unchecked';
-                    console.log(`Checkbox ${id} is now ${state}`);
+            const container = document.getElementById("grid-container");
+            const widthInput = document.getElementById("width");
+            const heightInput = document.getElementById("height");
 
-                    // convert checkboxes states to binary string
-                    let binaryString = '';
-                    checkboxes.forEach(cb => {
-                        binaryString += cb.checked ? '1' : '0';
+            widthInput.onchange = onDimensionsUpdate;
+            heightInput.onchange = onDimensionsUpdate;
+
+            function onDimensionsUpdate() {
+                const width = widthInput.value;
+                const height = heightInput.value;
+
+                const checkboxes = [];
+                container.innerHTML = '';
+                container.style.gridTemplateColumns = `repeat(${width}, 50px)`;
+                container.style.gridTemplateRows = `repeat(${height}, 50px)`;
+
+                for (let x = 0; x < width; x++) {
+                    for (let y = 0; y < height; y++) {
+                        const newCheckbox = document.createElement("input");
+                        newCheckbox.type = "checkbox";
+                        checkboxes.push(newCheckbox);
+                        container.appendChild(newCheckbox);
+                    }
+                }
+
+                checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', () => {
+                        const id = checkbox.id;
+                        const state = checkbox.checked ? 'checked' : 'unchecked';
+                        console.log(`Checkbox ${id} is now ${state}`);
+
+                        // convert checkboxes states to binary string
+                        let binaryString = '';
+                        checkboxes.forEach(cb => {
+                            binaryString += cb.checked ? '1' : '0';
+                        });
+                        // Binary to hexadecimal
+                        let binaryNumber = parseInt(binaryString, 2);
+                        output.textContent = `${binaryString} (Hexadecimal: ${binaryNumber.toString(16).toUpperCase()})`;
                     });
-                    // Binary to hexadecimal
-                    let binaryNumber = parseInt(binaryString, 2);
-                    output.textContent = `${binaryString} (Hexadecimal: ${binaryNumber.toString(16).toUpperCase()})`;
                 });
-            });
+            }
         });
     </script>
 </head>
 
 <body>
+    <div>
+        <input type="number" min="1" value="3" id="width">
+        <input type="number" min="1" value="4" id="height">
+    </div>
     <div id="grid-container">
         <input type="checkbox" id="0" />
         <input type="checkbox" id="1" />
