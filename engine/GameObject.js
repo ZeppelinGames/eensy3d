@@ -5,13 +5,13 @@ class GameObject extends GameEntity {
     constructor(name = "GameObject") {
         super();
         this.name = name;
-        this.transform = new Transform();
+        this.transform = new Transform(this);
         this.components = [];
     }
 
     addComponent(component) {
         this.components.push(component);
-        this.transform.addChild(component.GetComponent());
+        component.mount(this);
         return component;
     }
 

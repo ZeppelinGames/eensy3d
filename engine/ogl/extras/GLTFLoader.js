@@ -1,5 +1,5 @@
 import { Geometry } from '../core/Geometry.js';
-import { Transform } from '../core/Transform.js';
+import { Transform } from '../../Transform.js';
 import { Texture } from '../core/Texture.js';
 import { Mesh } from '../core/Mesh.js';
 import { Camera } from '../core/Camera.js';

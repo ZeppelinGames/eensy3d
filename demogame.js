@@ -4,6 +4,7 @@ import GameObject from './engine/GameObject.js';
 import Scene from './engine/Scene.js';
 import BaseColorMat from './engine/shaders/BaseColorMat.js';
 import { inputManager } from './engine/InputManager.js';
+import { renderer } from './engine/rendering/Renderer.js';
 
 engine.setScene(new Scene(engine.gl));
 
@@ -43,15 +44,15 @@ inputManager.onKeyDown = (e) => {
 }
 
 engine.onUpdate = (delta) => {
-    engine.renderer.clearCanvas();
+    renderer.clearCanvas();
 
     // Draw FPS
-    engine.renderer.textRenderer.drawText(engine.fps.toFixed(0), 8, 16);
+    renderer.textRenderer.drawText(engine.fps.toFixed(0), 8, 16);
 
     // Text rendering test
-    engine.renderer.textRenderer.drawText('ABCDEFGHIJKLMNOPQRSTUVWXYZ', 8, 24);
-    engine.renderer.textRenderer.drawText('abcdefghijklmnopqrstuvwxyz', 8, 32);
-    engine.renderer.textRenderer.drawText('0123456789', 8, 40);
+    renderer.textRenderer.drawText('ABCDEFGHIJKLMNOPQRSTUVWXYZ', 8, 24);
+    renderer.textRenderer.drawText('abcdefghijklmnopqrstuvwxyz', 8, 32);
+    renderer.textRenderer.drawText('0123456789', 8, 40);
 
     cubes.forEach(c => {
         c.transform.rotation.x += 0.003 * delta;

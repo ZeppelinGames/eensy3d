@@ -1,4 +1,4 @@
-import { Transform } from './Transform.js';
+import { Transform } from '../../Transform.js';
 import { Mat3 } from '../math/Mat3.js';
 import { Mat4 } from '../math/Mat4.js';
 

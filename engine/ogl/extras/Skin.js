@@ -1,5 +1,5 @@
 import { Mesh } from '../core/Mesh.js';
-import { Transform } from '../core/Transform.js';
+import { Transform } from '../../Transform.js';
 import { Mat4 } from '../math/Mat4.js';
 import { Texture } from '../core/Texture.js';
 import { Animation } from './Animation.js';

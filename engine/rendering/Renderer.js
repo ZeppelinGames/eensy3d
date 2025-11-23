@@ -44,10 +44,6 @@ export default class EngineRenderer {
         this.ctx2D.textRendering = 'geometricPrecision';
 
     }
-    drawTestPixel(x, y) {
-        this.ctx2D.fillStyle = "white";
-        this.ctx2D.fillRect(x, y, 1, 1);
-    }
 
     drawText(text, x, y, font = "8pt ChunkySans", color = "white") {
         this.ctx2D.font = font;
@@ -72,3 +68,4 @@ export default class EngineRenderer {
     }
 }
 
+export const renderer = new EngineRenderer();

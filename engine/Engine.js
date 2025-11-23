@@ -1,9 +1,8 @@
-import EngineRenderer from "./rendering/Renderer.js";
+import { renderer } from "./rendering/Renderer.js";
 
 class Engine {
     constructor() {
-        this.renderer = new EngineRenderer();
-        this.gl = this.renderer.renderer.gl;
+        this.gl = renderer.renderer.gl;
         this.gl.clearColor(0, 0, 0, 1);
 
         this.lastTime = 0;
@@ -41,7 +40,7 @@ class Engine {
             this.onUpdate(delta);
         }
 
-        this.renderer.renderer.render({
+        renderer.renderer.render({
             scene: this.scene.root.transform,
             camera: this.scene.camera,
         });

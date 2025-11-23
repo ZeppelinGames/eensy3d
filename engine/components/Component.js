@@ -1,10 +1,15 @@
 import GameEntity from "../GameEntity.js";
 
 class Component extends GameEntity {
-    constructor(gameObject) {
+    constructor() {
         super();
-        this.gameObject = gameObject;
     }
+
+    mount(gameObject) {
+        this.gameObject = gameObject;
+        this.onMount(gameObject);
+    }
+    onMount(gameObject) {}
 }
 
 export default Component;

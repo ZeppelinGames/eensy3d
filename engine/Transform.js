@@ -1,13 +1,15 @@
-import { Vec3 } from '../math/Vec3.js';
-import { Quat } from '../math/Quat.js';
-import { Mat4 } from '../math/Mat4.js';
-import { Euler } from '../math/Euler.js';
+import { Vec3 } from './ogl/math/Vec3.js';
+import { Quat } from './ogl/math/Quat.js';
+import { Mat4 } from './ogl/math/Mat4.js';
+import { Euler } from './ogl/math/Euler.js';
 
 export class Transform {
-    constructor() {
+    constructor(gameObject) {
         this.parent = null;
         this.children = [];
         this.visible = true;
+
+        this.gameObject = gameObject;
 
         this.matrix = new Mat4();
         this.worldMatrix = new Mat4();

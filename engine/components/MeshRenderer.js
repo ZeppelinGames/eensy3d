@@ -8,10 +8,13 @@ class MeshRenderer extends Component {
         const cubeGeometry = new Box(engine.gl);
         this.mesh = new Mesh(engine.gl, { geometry: cubeGeometry, program: material.program });
         this.material = material;
-    }
 
-    GetComponent() {
-        return this.mesh;
+
+        // Register self
+    }
+    
+    onMount(gameObject) {
+        gameObject.transform.addChild(this.mesh);
     }
 }
 export default MeshRenderer;
